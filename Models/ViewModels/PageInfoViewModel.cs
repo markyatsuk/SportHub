@@ -1,7 +1,7 @@
 namespace SportHub.Models.ViewModels;
 
 // model for pagination
-public class PageInfo
+public class PageInfoViewModel
 {
     public int TotalItems { get; set; }
     public int ItemsPerPage { get; set; }
