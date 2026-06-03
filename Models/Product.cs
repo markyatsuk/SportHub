@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SportHub.Models;
 
+// Product Entity. Become Products table in DB.
 public class Product
 {
     public long ProductId { get; init; }

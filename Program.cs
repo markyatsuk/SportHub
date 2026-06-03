@@ -15,7 +15,7 @@ builder.Services.AddDbContext<HubDbContext>(options =>
     options.UseSqlServer(connectionString ?? "Server=(localdb)\\MSSQLLocalDB;Database=SportHub;MultipleActiveResulSets=true");
 });
 
-//??
+// Register EfHubRepository that return collection of IQueryable<Product> Products in DI
 builder.Services.AddScoped<IHubRepository, EfHubRepository>();
 
 var app = builder.Build();
@@ -38,7 +38,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// ??
+// Ensuring our database has data. Passing app object as a parameter to create scope in SeedData class
 SeedData.EnsurePopulated(app);
 
 app.Run();
