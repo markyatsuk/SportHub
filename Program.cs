@@ -35,6 +35,11 @@ app.UseAuthorization();
 app.UseStaticFiles();
 
 app.MapControllerRoute(
+    name: "pagination",
+    pattern: "Products/Page{productPage:int}",
+    defaults: new { Controller = "Home", action = "Index", productPage = 1 });
+
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
