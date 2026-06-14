@@ -1,5 +1,11 @@
 ﻿@model ProductsListViewModel
 
+@* determine route name based on category selection *@
+@{
+    var route = this.Model.CurrentCategory is null ? "pagination" : "categoryPage";
+}
+
+
 @foreach (var p in Model?.Products ?? Enumerable.Empty<Product>())
 {
     // partial view for product display
@@ -10,7 +16,16 @@
 @* Razor sees page-action="Index" in the HTML,  
 converts the kebab-case attribute name to PascalCase (PageAction),
 finds the matching property on your class, and assigns the value *@
-<div page-model="@Model?.PageInfo" page-action="Index" page-classes-enabled="true"
-     page-class="btn" page-class-normal="btn-outline-dark"
-     page-class-selected="btn-primary" class="btn-group pull-right m-1">
+
+<!-- page-route        → maps to PageRoute property   → tells RouteUrl() which route template to use -->
+<!-- page-url-category → collected into PageUrlValues → { ["category"] = "Basketball" } -->
+<!-- page-url-* prefix → Razor strips prefix and adds key-value pair to PageUrlValues dictionary automatically -->
+<div page-model="@Model?.PageInfo"
+     page-classes-enabled="true"
+     page-route="@route"
+     page-class="btn"
+     page-class-normal="btn-outline-dark"
+     page-class-selected="btn-primary"
+     page-url-category="@Model?.CurrentCategory!"
+     class="btn-group pull-right m-1">
 </div>

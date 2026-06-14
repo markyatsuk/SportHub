@@ -11,19 +11,22 @@ public class HomeController(IHubRepository repository) : Controller
 {
     private const int PageSize = 5;
     
-    // action that passes ProductsListViewModel as a parameter. ProductsListViewModel contains IEnumerable<Product> Products and PageInfo PagingInfo
-    public IActionResult Index(int productPage = 1)
+    // action that passes ProductsListViewModel as a parameter. ProductsListViewModel contains IEnumerable<Product> Products, ActionResult PageInfo and string? CurrentCategory
+    public ViewResult Index(string? category, int productPage = 1)
     {
         return View(new ProductsListViewModel
         {
-            Products = repository.Products.OrderBy(product => product.ProductId).Skip((productPage - 1) * PageSize)
+            Products = repository.Products.Where(product => category == null || product.Category == category)
+                .OrderBy(product => product.ProductId)
+                .Skip((productPage - 1) * PageSize)
                 .Take(PageSize),
             PageInfo =
             {
-                TotalItems = repository.Products.Count(),
+                TotalItems = category == null ? repository.Products.Count() : repository.Products.Count(e => e.Category == category),
                 ItemsPerPage = PageSize,
                 CurrentPage = productPage,
-            }
+            },
+            CurrentCategory = category,
         });
     }
 

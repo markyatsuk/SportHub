@@ -40,8 +40,20 @@ app.MapControllerRoute(
     defaults: new { Controller = "Home", action = "Index", productPage = 1 });
 
 app.MapControllerRoute(
+    name: "categoryPage",
+    pattern: "{category}/Page{productPage:int}",
+    defaults: new { Controller = "Home", action = "Index" });
+
+app.MapControllerRoute(
+    name: "category",
+    pattern: "Products/{category}",
+    defaults: new { Controller = "Home", action = "Index", productPage = 1 });
+
+app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "/",
+    defaults: new { Controller = "Home", action = "Index" }); 
+
 
 // Ensuring our database has data. Passing app object as a parameter to create scope in SeedData class
 SeedData.EnsurePopulated(app);
