@@ -18,6 +18,11 @@ builder.Services.AddDbContext<HubDbContext>(options =>
 // Register EfHubRepository that return collection of IQueryable<Product> Products in DI
 builder.Services.AddScoped<IHubRepository, EfHubRepository>();
 
+// Add distributed memory cache service for session storage. Storage is in RAM of a server.
+builder.Services.AddDistributedMemoryCache();
+// Add session service for cart persistence
+builder.Services.AddSession();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -34,6 +39,9 @@ app.UseAuthorization();
 
 app.UseStaticFiles();
 
+// Enable session middleware
+app.UseSession();
+
 app.MapControllerRoute(
     name: "pagination",
     pattern: "Products/Page{productPage:int}",
@@ -48,6 +56,11 @@ app.MapControllerRoute(
     name: "category",
     pattern: "Products/{category}",
     defaults: new { Controller = "Home", action = "Index", productPage = 1 });
+
+app.MapControllerRoute(
+    name: "shoppingCart",
+    pattern: "Cart",
+    defaults: new { Controller = "Cart", action = "Index" });
 
 app.MapControllerRoute(
     name: "default",
