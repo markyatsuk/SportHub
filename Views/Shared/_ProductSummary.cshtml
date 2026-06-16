@@ -11,6 +11,20 @@
         </h4>
     </div>
     <!-- HTML form with ASP.NET Core tag helpers -->
+    @* It is an example of Model Binding with forms in ASP.NET.
+    Algorithm:
+    1. The partial view is rendering when handling pagination, categoryPage, category, default routes.
+    During rendering values become filled with HTTPContext and model information we have.
+    For example, @ViewContext.HttpContext.Request.PathAndQuery() handles "/" request path and returns it. 
+    2. Tag Helper asp-for="ProductId" stands for name="ProductId" + value="@Model.ProductId".
+    3. asp-contoller - inbuilt Anchor Tag Helper says to look for route, that handles CartController - shoppingCart route with pattern: "Cart".
+    4. By clicking on type submit button, we send HTTP POST request by shoppingCart route. 
+    Then [HttpPost] IActionReasult Index(long productId, Uri returnUrl) method takes controll.
+    -- Model Binding aspect: when the form is submited, browser collects all input fields and sends them in POST request body in the following format:
+    productId=15&returnUrl=/Products/Basketball. 
+    Then it Model Binding mechanism compares names of parameters in method and fields in request automatically.
+    That's how we transfer data from a web form to the controller. --
+*@
     <form id="@Model?.ProductId" asp-controller="Cart" asp-antiforgery="true">
         <input type="hidden" asp-for="ProductId" />
         <input type="hidden" name="returnUrl"
