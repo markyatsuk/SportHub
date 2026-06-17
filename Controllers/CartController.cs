@@ -6,9 +6,12 @@ using SportHub.Models.ViewModels;
 
 namespace SportHub.Controllers;
 
-public class CartController(IHubRepository repository) : Controller
+public class CartController(IHubRepository repository, Cart cart) : Controller
 {
     private readonly IHubRepository repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    
+    private Cart Cart { get; set; } = cart ?? throw new ArgumentNullException(nameof(cart));
+    
     [HttpGet]
     public IActionResult Index(string returnUrl)
     {
@@ -16,7 +19,7 @@ public class CartController(IHubRepository repository) : Controller
         return this.View(new CartViewModel
         {
             ReturnUrl = new Uri(returnUrl ?? "/"),
-            Cart = this.HttpContext.Session.GetJson<Cart>("cart") ?? new Cart(),
+            Cart = this.Cart,
         });
     }
     
@@ -28,14 +31,29 @@ public class CartController(IHubRepository repository) : Controller
 
         if (product != null)
         {
-            var cart = this.HttpContext.Session.GetJson<Cart>("cart") ?? new Cart();
-            cart.AddItem(product, 1);
-            this.HttpContext.Session.SetJson("cart", cart);
-            var newCart = this.HttpContext.Session.GetJson<Cart>("cart");
-            return this.View(new CartViewModel { Cart = cart, ReturnUrl = returnUrl ?? new Uri("/") });
+            Cart.AddItem(product, 1);
+            return this.View(new CartViewModel { Cart = Cart, ReturnUrl = returnUrl});
         }
 
         return this.RedirectToAction("Index", "Home");
+    }
+    
+    [HttpPost]
+    [Route("Cart/Remove")]
+    // Remove action method for cart items
+    public IActionResult Remove(long productId, Uri returnUrl)
+    {
+        var lineToRemove = this.Cart.Lines.FirstOrDefault(cl => cl.Product.ProductId == productId);
+        if (lineToRemove != null)
+        {
+            this.Cart.RemoveLine(lineToRemove.Product);
+        }
+        
+        return this.View("Index", new CartViewModel
+        {
+            Cart = this.Cart,
+            ReturnUrl = returnUrl
+        });
     }
 
 }

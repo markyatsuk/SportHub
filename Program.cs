@@ -22,8 +22,15 @@ builder.Services.AddScoped<IHubRepository, EfHubRepository>();
 
 // Add distributed memory cache service for session storage. Storage is in RAM of a server.
 builder.Services.AddDistributedMemoryCache();
+
 // Add session service for cart persistence
 builder.Services.AddSession();
+
+// Register Cart service with dependency injection
+builder.Services.AddScoped<Cart>(SessionCart.GetCart);
+
+// Register HttpContextAccessor for session access
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 var app = builder.Build();
 
