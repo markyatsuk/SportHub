@@ -18,12 +18,12 @@ public class CartController(IHubRepository repository, Cart cart) : Controller
         // return CartViewModel with session data
         return this.View(new CartViewModel
         {
-            ReturnUrl = new Uri(returnUrl ?? "/"),
+            ReturnUrl = new Uri(returnUrl, UriKind.Relative),
             Cart = this.Cart,
         });
     }
     
-    // add POST action for adding items to cart
+    // POST action method for adding items to cart
     [HttpPost]
     public IActionResult Index(long productId, Uri returnUrl)
     {
@@ -38,17 +38,12 @@ public class CartController(IHubRepository repository, Cart cart) : Controller
         return this.RedirectToAction("Index", "Home");
     }
     
+    // POST action method for removing items from cart 
     [HttpPost]
     [Route("Cart/Remove")]
-    // Remove action method for cart items
     public IActionResult Remove(long productId, Uri returnUrl)
     {
-        var lineToRemove = this.Cart.Lines.FirstOrDefault(cl => cl.Product.ProductId == productId);
-        if (lineToRemove != null)
-        {
-            this.Cart.RemoveLine(lineToRemove.Product);
-        }
-        
+        Cart.RemoveLine(Cart.Lines.First(cl => cl.Product.ProductId == productId).Product);
         return this.View("Index", new CartViewModel
         {
             Cart = this.Cart,

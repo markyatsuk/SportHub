@@ -84,6 +84,11 @@ app.MapControllerRoute(
     pattern: "/",
     defaults: new { Controller = "Home", action = "Index" }); 
 
+app.MapControllerRoute(
+    "remove",
+    "Remove",
+    new { Controller = "Cart", action = "Remove" });
+
 
 // Ensuring our database has data. Passing app object as a parameter to create scope in SeedData class
 SeedData.EnsurePopulated(app);
