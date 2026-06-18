@@ -20,6 +20,9 @@ builder.Services.AddDbContext<HubDbContext>(options =>
 // Register EfHubRepository that return collection of IQueryable<Product> Products in DI
 builder.Services.AddScoped<IHubRepository, EfHubRepository>();
 
+// Register Order repository service for dependency injection
+builder.Services.AddScoped<IOrderRepository, EfOrderRepository>();
+
 // Add distributed memory cache service for session storage. Storage is in RAM of a server.
 builder.Services.AddDistributedMemoryCache();
 
@@ -86,7 +89,7 @@ app.MapControllerRoute(
 
 app.MapControllerRoute(
     "checkout",
-    "Checkout",
+    "checkout",
     new { Controller = "Order", action = "Checkout" });
 
 app.MapControllerRoute(

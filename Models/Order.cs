@@ -9,7 +9,7 @@ public class Order
     public int OrderId { get; set; }
 
     [BindNever]
-    private ICollection<CartLine> Lines { get; } = new List<CartLine>();
+    public ICollection<CartLine> Lines { get; } = new List<CartLine>();
 
     [Required(ErrorMessage = "Please enter a name")]
     public string? Name { get; set; }

@@ -7,4 +7,5 @@ public class HubDbContext(DbContextOptions<HubDbContext> options) : DbContext(op
 {
     // Read-only access to Products table
     public DbSet<Product> Products => Set<Product>();
+    public DbSet<Order> Orders => Set<Order>();
 }
