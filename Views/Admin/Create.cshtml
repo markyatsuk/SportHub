@@ -1,0 +1,14 @@
+@model SportHub.Models.Product
+  
+@{
+    Layout = "_AdminLayout";
+}
+  
+<!-- use _Editor partial view for creating products -->
+<partial name="_Editor" model='(@Model, "primary", "Create" , "Create")' />
+
+@section Scripts
+{
+    <!-- Include validation scripts for client-side validation -->
+    <partial name="_ValidationScriptsPartial" />
+}
