@@ -9,6 +9,8 @@ namespace SportHub.Controllers;
 // HomeController gets collection IQueryable<Product> Products from IHubRepository via DI
 public class HomeController(IHubRepository repository) : Controller
 {
+    private readonly IHubRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    
     private const int PageSize = 5;
     
     // action that passes ProductsListViewModel as a parameter. ProductsListViewModel contains IEnumerable<Product> Products, ActionResult PageInfo and string? CurrentCategory
@@ -16,13 +18,13 @@ public class HomeController(IHubRepository repository) : Controller
     {
         return View(new ProductsListViewModel
         {
-            Products = repository.Products.Where(product => category == null || product.Category == category)
+            Products = _repository.Products.Where(product => category == null || product.Category == category)
                 .OrderBy(product => product.ProductId)
                 .Skip((productPage - 1) * PageSize)
                 .Take(PageSize),
             PageInfo =
             {
-                TotalItems = category == null ? repository.Products.Count() : repository.Products.Count(e => e.Category == category),
+                TotalItems = category == null ? _repository.Products.Count() : _repository.Products.Count(e => e.Category == category),
                 ItemsPerPage = PageSize,
                 CurrentPage = productPage,
             },

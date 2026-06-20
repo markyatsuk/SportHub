@@ -8,7 +8,7 @@ namespace SportHub.Controllers;
 
 public class CartController(IHubRepository repository, Cart cart) : Controller
 {
-    private readonly IHubRepository repository = repository ?? throw new ArgumentNullException(nameof(repository));
+    private readonly IHubRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     
     private Cart Cart { get; set; } = cart ?? throw new ArgumentNullException(nameof(cart));
     
@@ -27,7 +27,7 @@ public class CartController(IHubRepository repository, Cart cart) : Controller
     [HttpPost]
     public IActionResult Index(long productId, Uri returnUrl)
     {
-        Product? product = this.repository.Products.FirstOrDefault(p => p.ProductId == productId);
+        Product? product = this._repository.Products.FirstOrDefault(p => p.ProductId == productId);
 
         if (product != null)
         {

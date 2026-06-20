@@ -34,6 +34,9 @@ public class Order
 
     public bool GiftWrap { get; set; }
     
+    [BindNever]
+    public bool Shipped { get; set; }
+    
     public void SetLines(IEnumerable<CartLine> lines)
     {
         Lines.Clear();

@@ -22,7 +22,7 @@
     Then [HttpPost] IActionReasult Index(long productId, Uri returnUrl) method takes controll.
     -- Model Binding aspect: when the form is submited, browser collects all input fields and sends them in POST request body in the following format:
     productId=15&returnUrl=/Products/Basketball. 
-    Then it Model Binding mechanism compares names of parameters in method and fields in request automatically.
+    Then Model Binding mechanism compares names of parameters in method and fields in request automatically.
     That's how we transfer data from a web form to the controller. --
 *@
     <form id="@Model?.ProductId" asp-controller="Cart" asp-antiforgery="true">
