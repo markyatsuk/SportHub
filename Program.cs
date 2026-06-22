@@ -1,4 +1,5 @@
 using System.Globalization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using SportHub.Models;
@@ -35,6 +36,12 @@ builder.Services.AddScoped<Cart>(SessionCart.GetCart);
 // Register HttpContextAccessor for session access
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+// Configure Identity database context
+builder.Services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(builder.Configuration["ConnectionStrings:IdentityConnection"]));
+
+// Configure Identity services with Entity Framework stores
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>();
+
 var app = builder.Build();
 
 var supportedCultures = new[] { new CultureInfo("en-US") };
@@ -45,16 +52,19 @@ app.UseRequestLocalization(new RequestLocalizationOptions
     SupportedUICultures = supportedCultures
 });
 
-// Configure the HTTP request pipeline.
+// Production environment check for error handling
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
+    // Configure custom error handler for production environment
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
+// Configure the HTTP request pipeline.
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.UseStaticFiles();
@@ -88,17 +98,26 @@ app.MapControllerRoute(
     defaults: new { Controller = "Home", action = "Index" }); 
 
 app.MapControllerRoute(
-    "checkout",
-    "checkout",
+    name: "checkout",
+    pattern: "checkout",
     new { Controller = "Order", action = "Checkout" });
 
 app.MapControllerRoute(
-    "remove",
-    "Remove",
-    new { Controller = "Cart", action = "Remove" });
+    name: "remove",
+    pattern: "Remove",
+    defaults: new { Controller = "Cart", action = "Remove" });
+
+app.MapControllerRoute(
+    name: "error",
+    pattern: "Error",
+    defaults: new { Controller = "Home", action = "Error" });
 
 
 // Ensuring our database has data. Passing app object as a parameter to create scope in SeedData class
 SeedData.EnsurePopulated(app);
+
+// Seed Identity database with admin user
+await IdentitySeedData.EnsurePopulated(app);
+
 
 app.Run();

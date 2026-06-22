@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportHub.Models;
 using SportHub.Models.Repository;
 
 namespace SportHub.Controllers;
 
+[Authorize]
 [Route("Admin")]
 public class AdminController(IHubRepository hubRepository, IOrderRepository orderRepository) : Controller
 {
