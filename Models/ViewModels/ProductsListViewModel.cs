@@ -1,6 +1,6 @@
 namespace SportHub.Models.ViewModels;
 
-// the model as a container with combined information about Products
+// the productList view model as a container with combined information about Products to pass inside views that will render products
 public class ProductsListViewModel
 {
     public IEnumerable<Product> Products { get; set; } = Enumerable.Empty<Product>();

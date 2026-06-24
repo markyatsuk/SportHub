@@ -3,6 +3,7 @@ using SportHub.Models.Repository;
 
 namespace SportHub.Components;
 
+// NavigationMenuViewComponent allows to get IHubRepository via DI to select needed products and pass them inside partial view
 public class NavigationMenuViewComponent(IHubRepository repository) : ViewComponent
 {
     public IViewComponentResult Invoke()

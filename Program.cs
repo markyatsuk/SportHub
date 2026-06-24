@@ -18,10 +18,10 @@ builder.Services.AddDbContext<HubDbContext>(options =>
     options.UseSqlServer(connectionString ?? "Server=(localdb)\\MSSQLLocalDB;Database=SportHub;MultipleActiveResulSets=true");
 });
 
-// Register EfHubRepository that return collection of IQueryable<Product> Products in DI
+// Register EfHubRepository that return collection of IQueryable<Product> Products in DI by Type-based approach.
 builder.Services.AddScoped<IHubRepository, EfHubRepository>();
 
-// Register Order repository service for dependency injection
+// Register Order repository service for dependency injection by Type-based approach.
 builder.Services.AddScoped<IOrderRepository, EfOrderRepository>();
 
 // Add distributed memory cache service for session storage. Storage is in RAM of a server.
@@ -30,11 +30,25 @@ builder.Services.AddDistributedMemoryCache();
 // Add session service for cart persistence
 builder.Services.AddSession();
 
-// Register Cart service with dependency injection
+// Register Cart service with dependency injection by Factory-based registration. In that case DI says: "when someone needs Cart - do not create it by yourself but call that function"
 builder.Services.AddScoped<Cart>(SessionCart.GetCart);
 
-// Register HttpContextAccessor for session access
-builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+// Register HttpContextAccessor for session access by extension-method
+/* Is the same as builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+under the hood it is doing: 
+public static IServiceCollection AddHttpContextAccessor(this IServiceCollection services)
+{
+    services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+    return services;
+}
+
+the only difference:
+AddSingleton(...)    - registers always. even it exists - will replace.
+TryAddSingleton(...) - registers only if it is nor registered yet
+this difference is for libraries and frameworks mostly
+*/
+builder.Services.AddHttpContextAccessor();
 
 // Configure Identity database context
 builder.Services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(builder.Configuration["ConnectionStrings:IdentityConnection"]));

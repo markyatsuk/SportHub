@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using SportHub.Models;
 using SportHub.Models.Repository;
 using SportHub.Models.ViewModels;
 
@@ -9,11 +8,12 @@ namespace SportHub.Controllers;
 // HomeController gets collection IQueryable<Product> Products from IHubRepository via DI
 public class HomeController(IHubRepository repository) : Controller
 {
+    // Guard clauses: ensure required dependencies are injected before controller is used
     private readonly IHubRepository _repository = repository ?? throw new ArgumentNullException(nameof(repository));
     
     private const int PageSize = 5;
     
-    // action that passes ProductsListViewModel as a parameter. ProductsListViewModel contains IEnumerable<Product> Products, ActionResult PageInfo and string? CurrentCategory
+    // action that passes ProductsListViewModel as a parameter to the view. ProductsListViewModel contains filtered IEnumerable<Product> Products, ActionResult PageInfo and string? CurrentCategory
     public ViewResult Index(string? category, int productPage = 1)
     {
         return View(new ProductsListViewModel
