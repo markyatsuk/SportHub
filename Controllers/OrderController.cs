@@ -20,31 +20,32 @@ public class OrderController(IOrderRepository repository, Cart cart) : Controlle
     public IActionResult Checkout(Order order)
     {
         // check if cart is empty
-        if (!Cart.Lines.Any())
+        if (Cart.Lines.Count == 0)
         {
             // show an error message for empty cart
             ModelState.AddModelError("", "Sorry, your cart is empty!");
         }
         // check if form is filled correctly
-        if (ModelState.IsValid)
-        {
-            // set products from cart to order object
-            order.SetLines(Cart.Lines);
-            // save order to db
-            _repository.SaveOrder(order);
-            // clear cart
-            Cart.Clear();
-            // return Completed view with passed model as OrderId for confirmation page
-            return View(viewName:"Completed", model: order.OrderId);
-        }
+        if (!ModelState.IsValid) return View(order);
         
+        // set products from cart to order object
+        order.SetLines(Cart.Lines);
+        
+        // save order to db
+        _repository.SaveOrder(order);
+        
+        // clear cart
+        Cart.Clear();
+            
+        // return Completed view with passed model as OrderId for confirmation page
+        return View(viewName:"Completed", model: order.OrderId);
+
         /*
          return View(order) — always more correct than return View() because:
             - explicitly passes the model you were working with;
             - retains any data that was set in the controller but did not come from the form;
             - more readable — you can immediately see that the same model is being returned
          */
-        return View(order);
     }
 
 }

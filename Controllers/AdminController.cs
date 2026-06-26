@@ -45,15 +45,14 @@ public class AdminController(IHubRepository hubRepository, IOrderRepository orde
     [Route("Products/Edit/{productId:long}")]
     public IActionResult Edit(Product product)
     {
-        if (ModelState.IsValid)
-        {
-            // update product if form is filled correct
-            _hubRepository.UpdateProduct(product);
-            // then give control to Products action
-            return RedirectToAction("Products");
-        }
+        if (!ModelState.IsValid) return View(product);
+        
+        // update product if form is filled correct
+        _hubRepository.UpdateProduct(product);
+        
+        // then give control to Products action
+        return RedirectToAction("Products");
 
-        return View(product);
     }
 
     // GET action to display create form
@@ -68,15 +67,13 @@ public class AdminController(IHubRepository hubRepository, IOrderRepository orde
     [Route("Products/Create")]
     public IActionResult Create(Product product)
     {
-        if (ModelState.IsValid)
-        {
-            // create product if form is filled correct
-            _hubRepository.CreateProduct(product);
-            // then give control to Products action
-            return RedirectToAction("Products");
-        }
-
-        return View(product);
+        if (!ModelState.IsValid) return View(product);
+        
+        // create product if form is filled correct
+        _hubRepository.CreateProduct(product);
+        
+        // then give control to Products action
+        return RedirectToAction("Products");
     }
     
     // Delete GET action to display delete confirmation
@@ -91,8 +88,10 @@ public class AdminController(IHubRepository hubRepository, IOrderRepository orde
     {
         // find product to delete by id
         var product = _hubRepository.Products.FirstOrDefault(p => p.ProductId == productId);
+        
         // delete product from db if exists
         if (product != null) _hubRepository.DeleteProduct(product);
+        
         // then give control to Products action
         return RedirectToAction("Products");
     }
@@ -104,13 +103,14 @@ public class AdminController(IHubRepository hubRepository, IOrderRepository orde
     {
         // find order to mark as shipped by id
         Order? order = orderRepository.Orders.FirstOrDefault(o => o.OrderId == orderId);
-        if (order != null)
-        {
-            // mark order as shipped if exists
-            order.Shipped = true;
-            // update order in db
-            orderRepository.SaveOrder(order);
-        }
+        if (order == null) return RedirectToAction("Orders");
+        
+        // mark order as shipped if exists
+        order.Shipped = true;
+        
+        // update order in db
+        orderRepository.SaveOrder(order);
+        
         // then give control to Orders action
         return RedirectToAction("Orders");
     }
@@ -122,13 +122,14 @@ public class AdminController(IHubRepository hubRepository, IOrderRepository orde
     {
         // find order to mark as shipped by id
         Order? order = orderRepository.Orders.FirstOrDefault(o => o.OrderId == orderId);
-        if (order != null)
-        {
-            // mark order as not shipped if exists
-            order.Shipped = false;
-            // update order in db
-            orderRepository.SaveOrder(order);
-        }
+        if (order == null) return RedirectToAction("Orders");
+        
+        // mark order as not shipped if exists
+        order.Shipped = false;
+        
+        // update order in db
+        orderRepository.SaveOrder(order);
+        
         // then give control to Orders action
         return RedirectToAction("Orders");
     }

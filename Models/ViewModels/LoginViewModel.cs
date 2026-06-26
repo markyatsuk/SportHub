@@ -6,10 +6,10 @@ namespace SportHub.Models.ViewModels;
 public class LoginViewModel
 {
     [Required]
-    public string? Name { get; set; }
+    public string? Name { get; init; }
 
     [Required]
-    public string? Password { get; set; }
+    public string? Password { get; init; }
 
-    public string ReturnUrl { get; set; } = "/";
+    public string ReturnUrl { get; init; } = "/";
 }

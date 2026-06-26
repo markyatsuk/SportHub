@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 namespace SportHub.Models;
 
-public class SeedData
+public static class SeedData
 {
      public static void EnsurePopulated(IApplicationBuilder app)
     {
@@ -19,10 +19,9 @@ public class SeedData
         }
 
         // populate DB with data if there is no data
-        if (!context.Products.Any())
-        {
-            context.Products.AddRange(
-                new Product
+        if (context.Products.Any()) return;
+        context.Products.AddRange(
+            new Product
             {
                 Name = "Trail Running Shoes",
                 Description = "Lightweight shoes with aggressive grip for off-road terrain",
@@ -163,7 +162,6 @@ public class SeedData
                 Price = 45.00m,
             });
             
-            context.SaveChanges();
-        }
+        context.SaveChanges();
     }
 }

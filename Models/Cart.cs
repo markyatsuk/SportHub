@@ -4,7 +4,7 @@ namespace SportHub.Models;
 public class Cart
 {
     // [JsonInclude] - is redundant here. System.Text.Json does not change lists, it adds new items by .Add() method. So we need [JsonInclude] attribute when we have properties with private setter and it is not Collection with .Add() method.
-    public List<CartLine> Lines { get; } = new();
+    public List<CartLine> Lines { get; } = [];
 
     // logic of adding product to our cart
     public virtual void AddItem(Product product, int quantity)

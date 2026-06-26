@@ -6,33 +6,41 @@ namespace SportHub.Models;
 public class Order
 {
     [BindNever]
-    public int OrderId { get; set; }
+    public int OrderId { get; init; }
 
     [BindNever]
     public ICollection<CartLine> Lines { get; } = new List<CartLine>();
 
     [Required(ErrorMessage = "Please enter a name")]
-    public string? Name { get; set; }
+    [MaxLength(100)]
+    public string? Name { get; init; }
 
     [Required(ErrorMessage = "Please enter the first address line")]
-    public string? Line1 { get; set; }
+    [MaxLength(100)]
+    public string? Line1 { get; init; }
 
-    public string? Line2 { get; set; }
-
-    public string? Line3 { get; set; }
+    [MaxLength(100)]
+    public string? Line2 { get; init; }
+    
+    [MaxLength(100)]
+    public string? Line3 { get; init; }
 
     [Required(ErrorMessage = "Please enter a city name")]
-    public string? City { get; set; }
+    [MaxLength(100)]
+    public string? City { get; init; }
 
     [Required(ErrorMessage = "Please enter a state name")]
-    public string? State { get; set; }
+    [MaxLength(100)]
+    public string? State { get; init; }
 
-    public string? Zip { get; set; }
+    [MaxLength(15)]
+    public string? Zip { get; init; }
 
     [Required(ErrorMessage = "Please enter a country name")]
-    public string? Country { get; set; }
+    [MaxLength(100)]
+    public string? Country { get; init; }
 
-    public bool GiftWrap { get; set; }
+    public bool GiftWrap { get; init; }
     
     [BindNever]
     public bool Shipped { get; set; }

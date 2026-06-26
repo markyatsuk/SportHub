@@ -32,15 +32,12 @@ public class CartController(IHubRepository repository, Cart cart) : Controller
         // find product in db that we want to add to the cart
         Product? product = this._repository.Products.FirstOrDefault(p => p.ProductId == productId);
         
-        if (product != null)
-        {
-            // call AddItem method on Cart object(Session Cart instance): calling its base method AddItem and call SaveCart to save updated cart in session
-            Cart.AddItem(product, 1);
-            return this.View(new CartViewModel { Cart = Cart, ReturnUrl = returnUrl});
-        }
-
         // if there was no project found, just redirect to home page
-        return this.RedirectToAction("Index", "Home");
+        if (product == null) return this.RedirectToAction("Index", "Home");
+        
+        // call AddItem method on Cart object(Session Cart instance): calling its base method AddItem and call SaveCart to save updated cart in session
+        Cart.AddItem(product, 1);
+        return this.View(new CartViewModel { Cart = Cart, ReturnUrl = returnUrl});
     }
     
     // POST action method for removing items from cart 

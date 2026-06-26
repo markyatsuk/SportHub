@@ -43,34 +43,39 @@ public class AccountController(UserManager<IdentityUser> userManager, SignInMana
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel loginViewModel)
     {
-        // check form filling
-        if (ModelState.IsValid)
+        // local function to avoid repeating error handling
+        IActionResult InvalidLogin()
         {
-            //check if name exists
-            if (loginViewModel.Name != null)
-            {
-                // find user by name
-                IdentityUser? user = await userManager.FindByNameAsync(loginViewModel.Name);
-            
-                // check if user exists
-                if (user != null)
-                {
-                    // sign out if there was a logged user
-                    await signInManager.SignOutAsync();
-                    // check for password matching
-                    if (loginViewModel.Password != null && (await signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false)).Succeeded)
-                    {
-                        // redirect to the Products action of Admin controller
-                        return RedirectToAction("Products", "Admin");
-                    }
-                }
-            }
-            
             // show message if credentials are incorrect
             ModelState.AddModelError(string.Empty, "Invalid name or password.");
+            // return Login view with validation errors
+            return View(loginViewModel);
         }
-        // return Login view with validation errors if ModelState is invalid
-        return View(loginViewModel);
+        
+        // check form filling
+        if (!ModelState.IsValid) return View(loginViewModel);
+        
+        //check if name exists
+        if (loginViewModel.Name == null) return InvalidLogin();
+        
+        // find user by name
+        IdentityUser? user = await userManager.FindByNameAsync(loginViewModel.Name);
+        
+        // check if user exists
+        if (user == null) return InvalidLogin();
+        
+        // sign out if there was a logged user
+        await signInManager.SignOutAsync();
+        
+        // check for password matching
+        if (loginViewModel.Password != null && 
+            (await signInManager.PasswordSignInAsync(user, loginViewModel.Password, false, false)).Succeeded)
+        {
+            // redirect to the Products action of Admin controller
+            return RedirectToAction("Products", "Admin");
+        }
+        
+        return InvalidLogin();
     }
 
     // GET action to log out
