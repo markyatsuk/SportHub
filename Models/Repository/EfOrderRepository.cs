@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using SportHub.Models.DbContext;
+using SportHub.Models.Domain;
 
 namespace SportHub.Models.Repository;
 

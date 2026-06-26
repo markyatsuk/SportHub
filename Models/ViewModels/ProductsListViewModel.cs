@@ -1,3 +1,5 @@
+using SportHub.Models.Domain;
+
 namespace SportHub.Models.ViewModels;
 
 // the productList view model as a container with combined information about Products to pass inside views that will render products

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace SportHub.Models;
+namespace SportHub.Models.DbContext;
 
 // IdentitySeedData class for seeding admin user
 public static class IdentitySeedData

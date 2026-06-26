@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SportHub.Models;
+using SportHub.Models.Domain;
 
 namespace SportHub.Components;
 

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SportHub.Infrastructure;
 using SportHub.Models;
+using SportHub.Models.Domain;
 using SportHub.Models.Repository;
 using SportHub.Models.ViewModels;
 

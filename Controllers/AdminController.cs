@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SportHub.Models;
+using SportHub.Models.Domain;
 using SportHub.Models.Repository;
 
 namespace SportHub.Controllers;

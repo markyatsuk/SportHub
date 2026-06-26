@@ -1,3 +1,6 @@
+using SportHub.Models.DbContext;
+using SportHub.Models.Domain;
+
 namespace SportHub.Models.Repository;
 
 // repository to get access to collection IQueryable<Product> Products and to manipulate date in dbContext by CRUD methods. Expression Tree is building and extending by adding .Where(), .OrderBy() etc.

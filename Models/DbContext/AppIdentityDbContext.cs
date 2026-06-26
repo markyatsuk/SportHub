@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace SportHub.Models
+namespace SportHub.Models.DbContext
 {
     // AppIdentityDbContext for ASP.NET Core Identity
     public class AppIdentityDbContext(DbContextOptions<AppIdentityDbContext> options)

@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-namespace SportHub.Models;
+using SportHub.Models.Domain;
+
+namespace SportHub.Models.DbContext;
 
 public static class SeedData
 {

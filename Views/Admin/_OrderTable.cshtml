@@ -1,4 +1,6 @@
-@model (IQueryable<Order> Orders, string TableTitle, string ButtonLabel, string CallbackMethodName)
+@using SportHub.Models
+@using SportHub.Models.Domain
+@model (IQueryable<SportHub.Models.Domain.Order> Orders, string TableTitle, string ButtonLabel, string CallbackMethodName)
 
 <table class="table table-sm table-striped table-bordered">
     <thead>

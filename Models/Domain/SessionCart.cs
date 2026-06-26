@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using SportHub.Infrastructure.Extensions;
 
-namespace SportHub.Models;
+namespace SportHub.Models.Domain;
 
 // Determine our Session Cart class including session logic
 public class SessionCart : Cart

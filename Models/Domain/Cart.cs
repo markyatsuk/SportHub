@@ -1,4 +1,4 @@
-namespace SportHub.Models;
+namespace SportHub.Models.Domain;
 
 // Determine our Cart class logic. Basic class does not include session work. 
 public class Cart

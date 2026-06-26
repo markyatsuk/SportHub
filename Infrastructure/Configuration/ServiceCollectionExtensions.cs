@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SportHub.Models;
+using SportHub.Models.DbContext;
+using SportHub.Models.Domain;
 using SportHub.Models.Repository;
 
 namespace SportHub.Infrastructure.Configuration;

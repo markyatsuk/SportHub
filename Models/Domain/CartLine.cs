@@ -1,4 +1,4 @@
-namespace SportHub.Models;
+namespace SportHub.Models.Domain;
 
 // class for individual cart items
 public class CartLine

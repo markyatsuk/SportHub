@@ -1,3 +1,5 @@
+using SportHub.Models.Domain;
+
 namespace SportHub.Models.Repository;
 
 // defines what EfOrderRepository will do

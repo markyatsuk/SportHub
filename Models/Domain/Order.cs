@@ -1,7 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace SportHub.Models;
+namespace SportHub.Models.Domain;
 
 public class Order
 {
