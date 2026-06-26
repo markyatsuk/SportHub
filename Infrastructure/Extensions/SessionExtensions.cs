@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace SportHub.Infrastructure;
+namespace SportHub.Infrastructure.Extensions;
 
 // Extension methods for ISession that add JSON serialization support.
 // ISession natively stores only strings and byte arrays — these methods allow storing and retrieving any object type by serializing to/from JSON.

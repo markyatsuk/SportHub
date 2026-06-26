@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using SportHub.Models.ViewModels;
 
-namespace SportHub.Infrastructure;
+namespace SportHub.Infrastructure.Extensions;
 
 // describes target element - <div page-model=""></div>
 [HtmlTargetElement("div", Attributes = "page-model")]

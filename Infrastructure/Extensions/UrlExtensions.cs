@@ -1,4 +1,4 @@
-namespace SportHub.Infrastructure;
+namespace SportHub.Infrastructure.Extensions;
 
 public static class UrlExtensions
 {
