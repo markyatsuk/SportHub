@@ -13,6 +13,12 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.8" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.9.3" />
+    <Compile Remove="SportHub.Tests\**" />
+    <Content Remove="SportHub.Tests\**" />
+    <EmbeddedResource Remove="SportHub.Tests\**" />
+    <None Remove="SportHub.Tests\**" />
   </ItemGroup>
+  
 
 </Project>

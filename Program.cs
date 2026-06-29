@@ -1,5 +1,4 @@
 using SportHub.Infrastructure.Configuration;
-using SportHub.Models;
 using SportHub.Models.DbContext;
 
 var builder = WebApplication.CreateBuilder(args);
